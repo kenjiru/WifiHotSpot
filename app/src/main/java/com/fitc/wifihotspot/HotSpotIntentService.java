@@ -30,16 +30,16 @@ import static android.content.ContentValues.TAG;
 public class HotSpotIntentService extends IntentService {
 
     /**
-     Id for running service in foreground
+     * Id for running service in foreground
      */
-    private static int FOREGROUND_ID=1338;
+    private static int FOREGROUND_ID = 1338;
     private static final String CHANNEL_ID = "control_app";
 
     // Action names...assigned in manifest.
-    private  String ACTION_TURNON;
-    private  String ACTION_TURNOFF;
-    private  String DATAURI_TURNON;
-    private  String DATAURI_TURNOFF;
+    private String ACTION_TURNON;
+    private String ACTION_TURNOFF;
+    private String DATAURI_TURNON;
+    private String DATAURI_TURNOFF;
     private Intent mStartIntent;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -48,8 +48,6 @@ public class HotSpotIntentService extends IntentService {
 
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
-     *
-
      */
     public HotSpotIntentService() {
         super("HotSpotIntentService");
@@ -57,10 +55,11 @@ public class HotSpotIntentService extends IntentService {
 
     /**
      * Helper method to start this intent from {@link HotSpotIntentReceiver}
+     *
      * @param context
      * @param intent
      */
-    public static void start(Context context,Intent intent) {
+    public static void start(Context context, Intent intent) {
         Intent i = new Intent(context, HotSpotIntentService.class);
         i.setAction(intent.getAction());
         i.setData(intent.getData());
@@ -76,7 +75,7 @@ public class HotSpotIntentService extends IntentService {
         DATAURI_TURNOFF = getString(R.string.intent_data_host_turnoff);
 
         // Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show();
-        Log.i(TAG,"Received start intent");
+        Log.i(TAG, "Received start intent");
 
         mStartIntent = intent;
 
@@ -95,15 +94,15 @@ public class HotSpotIntentService extends IntentService {
         if (mStartIntent != null) {
             final String action = mStartIntent.getAction();
             final String data = mStartIntent.getDataString();
-            if (ACTION_TURNON.equals(action) || (data!=null && data.contains(DATAURI_TURNON))) {
+            if (ACTION_TURNON.equals(action) || (data != null && data.contains(DATAURI_TURNON))) {
                 turnOn = true;
-                Log.i(TAG,"Action/data to turn on hotspot");
-            } else if (ACTION_TURNOFF.equals(action)|| (data!=null && data.contains(DATAURI_TURNOFF))) {
+                Log.i(TAG, "Action/data to turn on hotspot");
+            } else if (ACTION_TURNOFF.equals(action) || (data != null && data.contains(DATAURI_TURNOFF))) {
                 turnOn = false;
-                Log.i(TAG,"Action/data to turn off hotspot");
+                Log.i(TAG, "Action/data to turn off hotspot");
             }
 
-            if (Build.VERSION.SDK_INT>= Build.VERSION_CODES.O){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 hotspotOreo(turnOn);
             } else {
                 turnOnHotspotPreOreo(turnOn);
@@ -146,9 +145,9 @@ public class HotSpotIntentService extends IntentService {
      *
      */
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void hotspotOreo(boolean turnOn){
+    private void hotspotOreo(boolean turnOn) {
 
-        if (mMyOreoWifiManager ==null){
+        if (mMyOreoWifiManager == null) {
             mMyOreoWifiManager = new MyOreoWifiManager(this);
         }
 
@@ -169,7 +168,7 @@ public class HotSpotIntentService extends IntentService {
             };
 
             mMyOreoWifiManager.startTethering(callback);
-        } else{
+        } else {
             mMyOreoWifiManager.stopTethering();
             stopForeground(true);
             stopSelf();
@@ -182,6 +181,7 @@ public class HotSpotIntentService extends IntentService {
 
     /**
      * Build low priority notification for running this service as a foreground service.
+     *
      * @return
      */
     private Notification buildForegroundNotification() {
@@ -190,9 +190,9 @@ public class HotSpotIntentService extends IntentService {
         Intent stopIntent = new Intent(this, HotSpotIntentService.class);
         stopIntent.setAction(getString(R.string.intent_action_turnoff));
 
-        PendingIntent pendingIntent = PendingIntent.getService(this,0, stopIntent, 0);
+        PendingIntent pendingIntent = PendingIntent.getService(this, 0, stopIntent, 0);
 
-        NotificationCompat.Builder b=new NotificationCompat.Builder(this,CHANNEL_ID);
+        NotificationCompat.Builder b = new NotificationCompat.Builder(this, CHANNEL_ID);
         b.setOngoing(true)
                 .setContentTitle("WifiHotSpot is On")
                 .addAction(new NotificationCompat.Action(
@@ -205,7 +205,7 @@ public class HotSpotIntentService extends IntentService {
                 .setSmallIcon(R.drawable.notif_hotspot_black_24dp);
 
 
-        return(b.build());
+        return (b.build());
     }
 
 

@@ -21,7 +21,7 @@ import java.util.List;
 public class MainActivity extends PermissionsActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    private static final String SHOW_ICON = "show_icon" ;
+    private static final String SHOW_ICON = "show_icon";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,31 +49,31 @@ public class MainActivity extends PermissionsActivity {
     }
 
 
-    public void onClickTurnOnAction(View v){
+    public void onClickTurnOnAction(View v) {
         Intent intent = new Intent(getString(R.string.intent_action_turnon));
-        sendImplicitBroadcast(this,intent);
+        sendImplicitBroadcast(this, intent);
     }
 
-    public void onClickTurnOffAction(View v){
+    public void onClickTurnOffAction(View v) {
         Intent intent = new Intent(getString(R.string.intent_action_turnoff));
-        sendImplicitBroadcast(this,intent);
+        sendImplicitBroadcast(this, intent);
     }
 
-    public void onClickTurnOnData(View v){
+    public void onClickTurnOnData(View v) {
         MagicActivity.useMagicActivityToTurnOn(this);
     }
 
-    public void onClickTurnOffData(View v){
+    public void onClickTurnOffData(View v) {
         MagicActivity.useMagicActivityToTurnOff(this);
     }
 
     private static void sendImplicitBroadcast(Context ctxt, Intent i) {
-        PackageManager pm=ctxt.getPackageManager();
-        List<ResolveInfo> matches=pm.queryBroadcastReceivers(i, 0);
+        PackageManager pm = ctxt.getPackageManager();
+        List<ResolveInfo> matches = pm.queryBroadcastReceivers(i, 0);
 
         for (ResolveInfo resolveInfo : matches) {
-            Intent explicit=new Intent(i);
-            ComponentName cn=
+            Intent explicit = new Intent(i);
+            ComponentName cn =
                     new ComponentName(resolveInfo.activityInfo.applicationInfo.packageName,
                             resolveInfo.activityInfo.name);
 

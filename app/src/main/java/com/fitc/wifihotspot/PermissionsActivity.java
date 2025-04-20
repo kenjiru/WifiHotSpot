@@ -18,7 +18,7 @@ import android.util.Log;
 
 public abstract class PermissionsActivity extends Activity {
 
-    static final int MY_PERMISSIONS_MANAGE_WRITE_SETTINGS = 100 ;
+    static final int MY_PERMISSIONS_MANAGE_WRITE_SETTINGS = 100;
     static final int MY_PERMISSIONS_REQUEST_ACCESS_COARSE_LOCATION = 69;
 
     private boolean mLocationPermission = false;
@@ -32,7 +32,7 @@ public abstract class PermissionsActivity extends Activity {
         /**
          * Locations permission done in onActrivityResult
          */
-         locationsPermission();
+        locationsPermission();
 
         if (mLocationPermission && mSettingPermission) onPermissionsOkay();
     }
@@ -51,7 +51,7 @@ public abstract class PermissionsActivity extends Activity {
     }
 
 
-    private void locationsPermission(){
+    private void locationsPermission() {
         mLocationPermission = true;
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -105,7 +105,6 @@ public abstract class PermissionsActivity extends Activity {
         if (mLocationPermission && mSettingPermission) onPermissionsOkay();
 
     }
-
 
 
     abstract void onPermissionsOkay();
